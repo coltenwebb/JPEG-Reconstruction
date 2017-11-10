@@ -10,3 +10,4 @@ Thumbs.db
 __pycache__/*
 .ipynb_checkpoints/
 *.h5
+tmp/*

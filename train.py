@@ -2,6 +2,7 @@ import os
 
 from keras.preprocessing.image import ImageDataGenerator
 import tensorflow as tf
+import keras 
 
 import model as model
 
@@ -32,15 +33,18 @@ validate_generator_y = train_datagen.flow_from_directory(
 
 validate_generator = zip(validate_generator_x, validate_generator_y)
 
+if __name__ == "__main__":
+    cb = keras.callbacks.TensorBoard(log_dir='./tmp', write_graph=True, write_images=True)
 
-model = model.get_model()
+    model = model.get_model()
 
-model.fit_generator(
-        train_generator,
-        steps_per_epoch=1000,
-        epochs=10,
-        validation_data=validate_generator,
-        validation_steps=6)
+    model.fit_generator(
+            train_generator,
+            steps_per_epoch=100,
+            epochs=30,
+            validation_data=validate_generator,
+            validation_steps=6,
+            callbacks=[cb])
 
-model.save_weights('weights.h5')
-print('Saved weights as weights.h5')
+    model.save_weights('weights.h5')
+    print('Saved weights as weights.h5')
