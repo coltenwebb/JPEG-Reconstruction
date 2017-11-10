@@ -37,7 +37,7 @@ model = model.get_model()
 
 model.fit_generator(
         train_generator,
-        steps_per_epoch=200,
+        steps_per_epoch=1000,
         epochs=10,
         validation_data=validate_generator,
         validation_steps=6)
