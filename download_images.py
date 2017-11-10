@@ -1,6 +1,8 @@
 import csv
 import urllib.request as request
 import os.path
+import os
+import errno
 
 def generate_url_list(linestoread):
     ret = []
@@ -13,9 +15,21 @@ def generate_url_list(linestoread):
                 break
     return ret
 
-if __name__ == "__main__":
-    NUMBER_TO_DOWNLOAD = 110
+# Utility function to make directory
+def mkdir(path):
+    try:
+        os.makedirs(path)
+    except OSError as e:
+        if e.errno != errno.EEXIST:
+            raise
 
+if __name__ == "__main__":
+    NUMBER_TO_DOWNLOAD = 1000
+    
+    print('Creating src/')    
+    mkdir('src/')
+    print('Done!')
+   
     print('Creating URL List')
     images = generate_url_list(NUMBER_TO_DOWNLOAD)
     print('Done!')
