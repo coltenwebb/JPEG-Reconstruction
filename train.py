@@ -6,7 +6,27 @@ import keras
 
 import model as model
 
-BATCH_SIZE = 4
+import argparse
+
+parser = argparse.ArgumentParser(description='Trains the network')
+parser.add_argument('--epochs', type=int, default=5, required=False,
+                    help='number of epochs')
+parser.add_argument('--epoch_size', type=int, default=1000, required=False,
+                    help='size of epoch')
+parser.add_argument('--batch_size', type=int, default=16, required=False,
+                    help='size of epoch')
+parser.add_argument('--validation_steps', type=int, default=-1, required=False,
+                    help='number of steps per validation. should be validation sample size/batch_size')
+
+
+
+args = parser.parse_args()
+print(args)
+
+BATCH_SIZE = args.batch_size
+EPOCHS = args.epochs
+EPOCH_STEPS = args.epoch_size
+VALIDATION_STEPS = 686 / BATCH_SIZE if args.validation_steps == -1 else args.validation_steps
 
 train_datagen = ImageDataGenerator(rescale=1. / 255)
 
@@ -44,10 +64,10 @@ if __name__ == "__main__":
 
     model.fit_generator(
         train_generator,
-        steps_per_epoch=1000,
-        epochs=5,
+        steps_per_epoch=EPOCHS_STEPS,
+        epochs=EPOCHS,
         validation_data=validate_generator,
-        validation_steps=6,
+        validation_steps=VALIDATION_STEPS,
         callbacks=[cb])
 
     model.save_weights('weights.h5')

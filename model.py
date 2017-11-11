@@ -36,7 +36,7 @@ def get_conv():
 
     # model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
     # model.add(MaxPooling2D((2, 2)))
-    model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
+    model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
     # model.add(MaxPooling2D((2, 2)))
     
     # decode
@@ -52,6 +52,9 @@ def get_conv():
 
     model.compile(
         optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
+     # model.compile(
+     #    optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
+
 
     return model
 

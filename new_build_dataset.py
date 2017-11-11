@@ -62,7 +62,7 @@ if __name__ == "__main__":
         type = 'validate' if i % 5 == 0 else 'train'
         filepath = 'bin/' + type + '/{}/all/' + img_name + '.jpg'
 
-        if os.path.isfile(filepath.format('uncompressed')):
+        if os.path.isfile(filepath.format('compressed')) and os.path.isfile(filepath.format('uncompressed')):
             continue
 
         im = image_from_url(url)
