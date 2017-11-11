@@ -6,6 +6,7 @@ import os
 import errno
 from PIL import Image
 
+NUMBER_TO_DOWNLOAD = 5000
 
 def generate_url_list(linestoread):
     ret = []
@@ -38,7 +39,6 @@ def image_from_url(url):
 
 
 if __name__ == "__main__":
-    NUMBER_TO_DOWNLOAD = 10
 
     mkdir('bin/train/compressed/all')
     mkdir('bin/train/uncompressed/all')
@@ -59,12 +59,15 @@ if __name__ == "__main__":
         print(
             'Downloading Image: {0} of {1}'.format(i, NUMBER_TO_DOWNLOAD),
             end='\r')
+        type = 'validate' if i % 5 == 0 else 'train'
+        filepath = 'bin/' + type + '/{}/all/' + img_name + '.jpg'
+
+        if os.path.isfile(filepath.format('uncompressed')):
+            continue
 
         im = image_from_url(url)
         im = im.resize((96, 96), resample=Image.LANCZOS)
 
-        type = 'validate' if i % 5 == 0 else 'train'
-        filepath = 'bin/' + type + 'train/{}/all/' + img_name + '.jpg'
         im.save(filepath.format('uncompressed'), format="jpeg", quality=100)
         im.save(filepath.format('compressed'), format="jpeg", quality=20)
     print('\nDone!')
