@@ -2,8 +2,9 @@ from os import listdir
 import os
 from os.path import isfile, join
 from PIL import Image, ImageFilter
+import errno
 
-SIZE = (256, 256)
+SIZE = (96, 96)
 PATH = 'src/'
 OUT_TRAIN = 'bin/train/'
 OUT_VALIDATE = 'bin/validate/'
