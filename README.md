@@ -1,4 +1,4 @@
 # JPEG-Reconstruction
 Removing compression artifacts using neural networks.
 
-Current model is an autoencoder and is magnificently uneffective, but cool!
+Current model is a convolutional autoencoder. Check out the Results notebook.
