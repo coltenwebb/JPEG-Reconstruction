@@ -30,24 +30,26 @@ def get_conv():
     model.add(
         Conv2D(
             256, (3, 3),
-            input_shape=(96, 96, 1),
+            input_shape=(96, 96, 3),
             activation='relu',
             padding='same'))
 
     # model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
     # model.add(MaxPooling2D((2, 2)))
     model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
+    model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
     # model.add(MaxPooling2D((2, 2)))
     
     # decode
+    model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+    model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
     model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
     # model.add(UpSampling2D((2, 2)))
     model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
     # model.add(UpSampling2D((2, 2)))
 
-    model.add(Conv2D(1, (3, 3), activation='sigmoid', padding='same'))
-
-    model.add(Reshape((96, 96, 1), input_shape=(9216, )))
+    model.add(Conv2D(3, (3, 3), activation='sigmoid', padding='same'))
+    model.add(Reshape((96, 96, 3), input_shape=(9216*3, )))
     # model.output_shape => (None, 256, 256, 1)
 
     model.compile(

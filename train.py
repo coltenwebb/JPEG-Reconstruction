@@ -26,7 +26,7 @@ print(args)
 BATCH_SIZE = args.batch_size
 EPOCHS = args.epochs
 EPOCH_STEPS = args.epoch_size
-VALIDATION_STEPS = 686 / BATCH_SIZE if args.validation_steps == -1 else args.validation_steps
+VALIDATION_STEPS = 1000 / BATCH_SIZE if args.validation_steps == -1 else args.validation_steps
 
 train_datagen = ImageDataGenerator(rescale=1. / 255)
 
@@ -36,7 +36,7 @@ generator_args = dict(
     target_size=(96, 96),
     batch_size=BATCH_SIZE,
     class_mode=None,
-    color_mode='grayscale',
+    color_mode='rgb',
     seed=1)
 
 train_generator_x = train_datagen.flow_from_directory('bin/train/compressed/',
@@ -57,18 +57,19 @@ validate_generator_y = train_datagen.flow_from_directory(
 validate_generator = zip(validate_generator_x, validate_generator_y)
 
 if __name__ == "__main__":
-    cb = keras.callbacks.TensorBoard(
+    tb_callback = keras.callbacks.TensorBoard(
         log_dir='./tmp', write_graph=True, write_images=True)
+    checkpointer = keras.callbacks.ModelCheckpoint(filepath='./weight_checkpoints/weights.hdf5', verbose=1, save_best_only=True)
 
     model = model.get_model()
 
     model.fit_generator(
         train_generator,
-        steps_per_epoch=EPOCHS_STEPS,
+        steps_per_epoch=EPOCH_STEPS,
         epochs=EPOCHS,
         validation_data=validate_generator,
         validation_steps=VALIDATION_STEPS,
-        callbacks=[cb])
+        callbacks=[tb_callback, checkpointer])
 
     model.save_weights('weights.h5')
     print('Saved weights as weights.h5')
