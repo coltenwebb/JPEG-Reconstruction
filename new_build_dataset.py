@@ -6,7 +6,7 @@ import os
 import errno
 from PIL import Image
 
-NUMBER_TO_DOWNLOAD = 5000
+NUMBER_TO_DOWNLOAD = 20000
 
 def generate_url_list(linestoread):
     ret = []
