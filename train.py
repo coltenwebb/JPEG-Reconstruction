@@ -9,12 +9,12 @@ import model as model
 import argparse
 
 parser = argparse.ArgumentParser(description='Trains the network')
-parser.add_argument('--epochs', type=int, default=5, required=False,
+parser.add_argument('--epochs', type=int, default=20, required=False,
                     help='number of epochs')
-parser.add_argument('--epoch_size', type=int, default=1000, required=False,
+parser.add_argument('--epoch_size', type=int, default=500, required=False,
                     help='size of epoch')
-parser.add_argument('--batch_size', type=int, default=16, required=False,
-                    help='size of epoch')
+parser.add_argument('--batch_size', type=int, default=32, required=False,
+                    help='size of batches (too big will cause memory errors)')
 parser.add_argument('--validation_steps', type=int, default=-1, required=False,
                     help='number of steps per validation. should be validation sample size/batch_size')
 

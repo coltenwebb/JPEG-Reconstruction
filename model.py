@@ -3,7 +3,7 @@ from keras.models import Model, Sequential
 
 
 def get_model():
-    return get_conv()
+    return get_control()
 
 
 def get_ddn():
@@ -29,23 +29,23 @@ def get_conv():
     # encode
     model.add(
         Conv2D(
-            256, (3, 3),
+            256, (5, 5),
             input_shape=(96, 96, 3),
             activation='relu',
             padding='same'))
 
     # model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
     # model.add(MaxPooling2D((2, 2)))
+    # model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
     model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
-    model.add(Conv2D(128, (5, 5), activation='relu', padding='same'))
-    # model.add(MaxPooling2D((2, 2)))
+    model.add(MaxPooling2D((2, 2)))
     
     # decode
     model.add(Conv2D(64, (3, 3), activation='relu', padding='same'))
+    # model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
     model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-    model.add(Conv2D(128, (3, 3), activation='relu', padding='same'))
-    # model.add(UpSampling2D((2, 2)))
-    model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
+    model.add(UpSampling2D((2, 2)))
+    # model.add(Conv2D(256, (3, 3), activation='relu', padding='same'))
     # model.add(UpSampling2D((2, 2)))
 
     model.add(Conv2D(3, (3, 3), activation='sigmoid', padding='same'))
@@ -59,6 +59,21 @@ def get_conv():
 
 
     return model
+
+def get_control():
+    model = Sequential()
+    
+    model.add(Reshape((96, 96, 3), input_shape=(96, 96, 3)))
+    # model.output_shape => (None, 256, 256, 1)
+
+    model.compile(
+        optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
+     # model.compile(
+     #    optimizer='adadelta', loss='binary_crossentropy', metrics=['accuracy'])
+
+
+    return model
+
 
 
 if __name__ == '__main__':

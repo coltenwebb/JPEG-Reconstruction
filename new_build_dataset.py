@@ -52,22 +52,25 @@ if __name__ == "__main__":
 
     i = 0
     for image in images:
-        url = image[1]
-        img_name = image[0]
+        try:
+            url = image[1]
+            img_name = image[0]
 
-        i += 1
-        print(
-            'Downloading Image: {0} of {1}'.format(i, NUMBER_TO_DOWNLOAD),
-            end='\r')
-        type = 'validate' if i % 5 == 0 else 'train'
-        filepath = 'bin/' + type + '/{}/all/' + img_name + '.jpg'
+            i += 1
+            print(
+                'Downloading Image: {0} of {1}'.format(i, NUMBER_TO_DOWNLOAD),
+                end='\r')
+            type = 'validate' if i % 5 == 0 else 'train'
+            filepath = 'bin/' + type + '/{}/all/' + img_name + '.jpg'
 
-        if os.path.isfile(filepath.format('compressed')) and os.path.isfile(filepath.format('uncompressed')):
-            continue
+            if os.path.isfile(filepath.format('compressed')) and os.path.isfile(filepath.format('uncompressed')):
+                continue
 
-        im = image_from_url(url)
-        im = im.resize((96, 96), resample=Image.LANCZOS)
+            im = image_from_url(url)
+            im = im.resize((96, 96), resample=Image.LANCZOS)
 
-        im.save(filepath.format('uncompressed'), format="jpeg", quality=100)
-        im.save(filepath.format('compressed'), format="jpeg", quality=20)
+            im.save(filepath.format('uncompressed'), format="jpeg", quality=100)
+            im.save(filepath.format('compressed'), format="jpeg", quality=20)
+        except (KeyboardInterrupt, SystemExit):
+            break
     print('\nDone!')
